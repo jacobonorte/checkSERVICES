@@ -1,5 +1,12 @@
 @ECHO OFF
 
+	:start
+		CALL :checkSERVICE
+		SET choice=
+		SET /p choice="Do you want to check another service? Press 'y' and enter for Yes: "
+		if not '%choice%'=='' set choice=%choice:~0,1%
+		if '%choice%'=='y' goto start
+
 		:checkSERVICE
 			SET /p ID="Enter Service here: "
 			SET checkSERVICENAME=%ID%
@@ -7,9 +14,9 @@
 			SC QUERYEX "%checkSERVICENAME%" | FIND "STATE" | FIND /v "RUNNING" > NUL && (
 				ECHO %checkSERVICENAME% is not running
 				ECHO starting %checkSERVICENAME%
-				net start "%checkSERICENAME%" > NUL || (
+				net start "%checkSERVICENAME%" > NUL || (
 					ECHO "%checkSERVICENAME%" will not start
-					TIMEOUT /t 1
+					TIMEOUT /t 3
 					PAUSE
 				)
 				ECHO %checkSERVICENAME% is started.
@@ -42,5 +49,3 @@
 			ECHO verified that %checkSERVICENAME% is not running
 			TIMEOUT /t 4
 			EXIT /b 0
-
-		CALL :checkSERVICE
