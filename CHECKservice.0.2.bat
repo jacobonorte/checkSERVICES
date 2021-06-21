@@ -1,11 +1,12 @@
 @ECHO OFF
 
-	:start
+	:start (
 		CALL :checkSERVICE
 		SET choice=
-		SET /p choice="Do you want to check another service? Press 'y' and enter for Yes: "
+		SET /p choice="Do you want to check another service? Press 'y' and enter: "
 		if not '%choice%'=='' set choice=%choice:~0,1%
 		if '%choice%'=='y' goto start
+	)
 
 		:checkSERVICE
 			SET /p ID="Enter Service here: "
